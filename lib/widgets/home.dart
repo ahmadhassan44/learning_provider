@@ -15,12 +15,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            numbers.add(++label);
-            label = numbers.last;
-          });
-        },
+        onPressed: () {},
         child: const Icon(
           Icons.add,
           color: Colors.red,
