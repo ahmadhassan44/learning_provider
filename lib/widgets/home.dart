@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:learning_provider/list_provider.dart';
 import 'package:learning_provider/widgets/second.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,51 +11,53 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<int> numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  int label = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(
-          Icons.add,
-          color: Colors.red,
+    return Consumer<NumbersList>(
+      builder: (context, numbersList, child) => Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            numbersList.add();
+          },
+          child: const Icon(
+            Icons.add,
+            color: Colors.red,
+          ),
         ),
-      ),
-      appBar: AppBar(
-        foregroundColor: Colors.red,
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            Text(
-              label.toString(),
-              style: const TextStyle(
-                fontSize: 26,
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: numbers.length,
-                itemBuilder: (context, index) => Text(
-                  numbers[index].toString(),
-                  style: const TextStyle(fontSize: 24),
+        appBar: AppBar(
+          foregroundColor: Colors.red,
+        ),
+        body: Center(
+          child: Column(
+            children: [
+              Text(
+                numbersList.label.toString(),
+                style: const TextStyle(
+                  fontSize: 26,
                 ),
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Second(numbers)));
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.red),
-                foregroundColor: MaterialStateProperty.all(Colors.white),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: numbersList.numbers.length,
+                  itemBuilder: (context, index) => Text(
+                    numbersList.numbers.toList()[index].toString(),
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                ),
               ),
-              child: const Text("Navigate"),
-            )
-          ],
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Second(numbersList.numbers)));
+                },
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                child: const Text("Navigate"),
+              )
+            ],
+          ),
         ),
       ),
     );
